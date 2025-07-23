@@ -9,7 +9,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   className = '',
   ...props
 }) => {
-  const checkboxClasses = `h-4 w-4 text-purple-700 focus:ring-purple-500 border-gray-300 rounded ${className}`.trim();
+  const checkboxClasses = `h-4 w-4 text-purple-700 focus:ring-purple-500 border-gray-300 ${className}`.trim();
   
   return (
     <div className="flex items-center">

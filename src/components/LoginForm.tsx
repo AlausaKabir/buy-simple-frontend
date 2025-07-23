@@ -47,7 +47,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-purple-700 mb-2">Welcome Back</h1>
+        <h1 className="text-3xl font-bold text-purple-700 mb-2 font-serif">Welcome Back</h1>
         <p className="text-gray-600">
           Enter your email address and password to access your account.
         </p>

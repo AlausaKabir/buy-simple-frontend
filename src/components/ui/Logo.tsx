@@ -1,5 +1,4 @@
 import React from 'react';
-import logoSvg from '../../assets/logo.svg';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
@@ -22,7 +21,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'md', className = '' }) => {
   return (
     <div className={className}>
       <img 
-        src={logoSvg} 
+        src="/logo.svg" 
         alt="Team Achieve Logo" 
         className={sizeClasses[size]}
       />

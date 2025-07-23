@@ -14,7 +14,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
   type = 'text',
   ...props
 }, ref) => {
-  const baseClasses = 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-200';
+  const baseClasses = 'w-full px-3 py-2 border focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-200';
   const normalClasses = 'border-gray-300 focus:ring-purple-500';
   const errorClasses = 'border-red-300 focus:ring-red-500';
   
@@ -28,15 +28,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
           {props.required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
-      <div className="relative">
+      <div className="flex">
         <input
           ref={ref}
           type={type}
-          className={inputClasses}
+          className={`${inputClasses} ${icon ? 'border-r-0' : ''}`}
           {...props}
         />
         {icon && (
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+          <div className="flex items-center px-3 border-t border-r border-b border-gray-300 bg-gray-100 border-l border-l-gray-200">
             {icon}
           </div>
         )}

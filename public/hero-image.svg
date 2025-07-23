@@ -1,0 +1,8 @@
+<!-- This is a placeholder for the hero image. 
+     Replace this file with the actual image of the three people you provided -->
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#E0F2FE"/>
+  <text x="200" y="150" text-anchor="middle" font-family="Arial" font-size="16" fill="#0369A1">
+    Replace with hero image
+  </text>
+</svg>

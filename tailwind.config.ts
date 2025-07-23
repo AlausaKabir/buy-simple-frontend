@@ -9,8 +9,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'lora': ['var(--font-lora)', 'serif'],
-        'noto-sans': ['var(--font-noto-sans)', 'sans-serif'],
+        lora: ["var(--font-lora)", "serif"],
+        "noto-sans": ["var(--font-noto-sans)", "sans-serif"],
       },
       colors: {
         background: "var(--background)",

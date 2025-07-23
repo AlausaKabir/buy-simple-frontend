@@ -1,86 +1,119 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
+import { useState, useEffect } from 'react';
 import LoginForm from '@/components/LoginForm';
+import Dashboard from '@/components/Dashboard';
+import Image from 'next/image';
+
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: 'staff' | 'admin' | 'superadmin';
+}
 
 export default function Home() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F8EAFF] to-white">
-      {/* Mobile Header */}
-      <div className="lg:hidden flex items-center justify-between p-4 bg-white shadow-sm">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-orange-500 flex items-center justify-center">
-            <span className="text-white text-sm font-bold">T</span>
-          </div>
-          <span className="text-gray-800 font-semibold">Team Achieve</span>
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    const userData = localStorage.getItem('userData');
+
+    if (token && userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+      } catch (error) {
+        // Invalid user data, clear storage
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userData');
+      }
+    }
+    setIsLoading(false);
+  }, []);
+
+  // Handle successful login
+  const handleLogin = (userData: User, token: string) => {
+    setUser(userData);
+    localStorage.setItem('authToken', token);
+    localStorage.setItem('userData', JSON.stringify(userData));
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userData');
+  };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#FAF7FF] via-[#F8F4FF] to-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-600 border-t-transparent mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
         </div>
-        <button className="text-purple-600 text-sm font-medium">
-          log in as a client
-        </button>
       </div>
+    );
+  }
 
-      <div className="flex min-h-screen lg:min-h-screen">
-        {/* Left Panel - Hero Section */}
-        <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#F8EAFF] to-white p-8 lg:p-12 flex-col justify-center items-center relative">
-          {/* Client Login Link */}
-          <div className="absolute top-6 left-6">
-            <button className="text-purple-600 text-sm font-medium hover:underline">
-              log in as a client
-            </button>
-          </div>
+  // Show dashboard if user is logged in
+  if (user) {
+    return <Dashboard user={user} onLogout={handleLogout} />;
+  }
 
-          {/* Logo */}
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-orange-500 flex items-center justify-center relative">
-              <span className="text-white text-lg font-bold">T</span>
+  // Show login page
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#FAF7FF] via-[#F8F4FF] to-white">
+      {/* Header - Desktop Logo */}
+      <header className="absolute top-0 left-0 right-0 z-10 p-6">
+        <div className="hidden lg:block">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-orange-500 flex items-center justify-center shadow-lg">
+              <div className="flex items-center space-x-0.5">
+                <div className="w-1.5 h-2.5 bg-white rounded-full opacity-90"></div>
+                <div className="w-1.5 h-2.5 bg-white rounded-full opacity-90"></div>
+              </div>
             </div>
-            <span className="text-gray-600 text-xl font-semibold">Team Achieve</span>
+            <span className="text-xl font-semibold text-gray-800">Team Achieve</span>
           </div>
+        </div>
+      </header>
 
-          {/* Hero Image */}
-          <div className="mb-8 rounded-2xl overflow-hidden shadow-2xl">
-            <div className="w-80 h-60 bg-gradient-to-br from-sky-200 via-blue-300 to-blue-400 flex items-center justify-center relative">
-              {/* Urban background simulation */}
-              <div className="absolute inset-0 bg-gradient-to-br from-sky-200 via-blue-300 to-blue-400 opacity-90"></div>
-
-              {/* Building silhouettes */}
-              <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-gray-300 to-transparent opacity-30"></div>
-
-              {/* Three people silhouettes */}
-              <div className="relative z-10 flex items-center justify-center space-x-4">
-                {/* Person 1 */}
-                <div className="w-8 h-16 bg-black bg-opacity-40 rounded-t-full relative">
-                  <div className="w-4 h-4 bg-black bg-opacity-40 rounded-full absolute -top-2 left-2"></div>
-                </div>
-                {/* Person 2 */}
-                <div className="w-8 h-18 bg-black bg-opacity-50 rounded-t-full relative">
-                  <div className="w-4 h-4 bg-black bg-opacity-50 rounded-full absolute -top-2 left-2"></div>
-                </div>
-                {/* Person 3 */}
-                <div className="w-8 h-16 bg-black bg-opacity-40 rounded-t-full relative">
-                  <div className="w-4 h-4 bg-black bg-opacity-40 rounded-full absolute -top-2 left-2"></div>
-                </div>
-              </div>
-
-              {/* Connecting arms effect */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-20 h-1 bg-black bg-opacity-20 rounded-full"></div>
-              </div>
+      <div className="min-h-screen flex flex-col lg:flex-row">
+        {/* Left Panel - Hero Section (Desktop Only) */}
+        <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-[#FAF7FF] to-[#F0EBFF] p-12 flex-col justify-center items-center">
+          {/* Hero Image Container */}
+          <div className="relative mb-8 rounded-3xl overflow-hidden shadow-2xl bg-white p-4">
+            <div className="relative w-[700px] h-[400px] rounded-2xl overflow-hidden">
+              <Image
+                src="/hero-image.png"
+                alt="Team Achieve"
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
           </div>
 
-          {/* Tagline */}
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-purple-700 mb-2">Team Achieve</h1>
-            <p className="text-gray-600 text-lg">Your perfect solution for funding your desires</p>
+          {/* Hero Text */}
+          <div className="text-center mt-4 max-w-md">
+            <h2 className="text-2xl mt-4 font-bold text-[#61227D] mb-4">
+              Team Achieve
+            </h2>
+            <p className="text-gray-600 leading-relaxed">
+              Your perfect solution for funding your desires
+            </p>
           </div>
         </div>
 
         {/* Right Panel - Login Form */}
-        <div className="w-full lg:w-1/2 bg-white flex items-center justify-center p-6 lg:p-12">
+        <div className="w-full lg:w-1/2 bg-white flex items-center justify-center px-6 py-8 lg:px-16 lg:py-16">
           <div className="w-full max-w-md">
-            <LoginForm />
+            <LoginForm onLogin={handleLogin} />
           </div>
         </div>
       </div>

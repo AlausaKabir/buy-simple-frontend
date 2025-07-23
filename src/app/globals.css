@@ -21,13 +21,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Enhanced focus styles for accessibility */
+input:focus,
+button:focus {
+  outline: 2px solid #8B5CF6;
+  outline-offset: 2px;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #f8f9fa;
 }
 
 ::-webkit-scrollbar-thumb {
